@@ -1,5 +1,6 @@
 bootstrap:
 	git submodule update --init
+	cp .env.example .env
 	asdf install
 	bundle install
 	npm install --prefix front

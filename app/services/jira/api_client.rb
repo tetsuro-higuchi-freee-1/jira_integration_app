@@ -5,13 +5,14 @@ module Jira
 
     def initialize(config)
       @domain = config[:domain]
+      @email = config[:email]
       @token = config[:token]
       @project_key = config[:project_key]
       @api_version = config[:api_version] || '3'
     end
 
     def fetch_issues(jql = nil)
-      jwt_token = Base64.strict_encode64("#{ENV['JIRA_MAIL']}:#{@token}")
+      jwt_token = Base64.strict_encode64("#{@email}:#{@token}")
       response = HTTParty.post(
         "https://#{ENV['JIRA_DOMAIN']}/rest/api/3/search",
         headers: {
@@ -19,7 +20,7 @@ module Jira
           "Content-Type" => "application/json"
         },
         body: {
-          jql: "project = KNOQ", # Your_Project_Key をあなたのプロジェクトキーで置き換えてください。
+          jql: "project = #{@project_key}", # Your_Project_Key をあなたのプロジェクトキーで置き換えてください。
           startAt: 0,
           maxResults: 15, # この数値は取得したい結果の数値に変更することが可能です。
           fields: ['summary', 'status', 'priority', 'assignee', 'created', 'updated'] # これは取得したいフィールドの配列です。あなたのニーズに合わせて変更してください。

@@ -5,6 +5,7 @@ module Jira
     def create
       interactor = FetchIssuesInteractor.call(
         domain: params[:domain],
+        email: params[:email],
         token: params[:token],
         project_key: params[:projectKey],
         api_version: params[:api_version]
