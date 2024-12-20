@@ -11,7 +11,7 @@ module Jira
     end
 
     def fetch_issues(jql = nil)
-      jwt_token = Base64.strict_encode64("mai-takahashi@c-fo.com:#{@token}")
+      jwt_token = Base64.strict_encode64("#{ENV['JIRA_MAIL']}:#{@token}")
       response = HTTParty.post(
         "https://#{ENV['JIRA_DOMAIN']}/rest/api/3/search",
         headers: {
